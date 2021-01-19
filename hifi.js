@@ -10,7 +10,7 @@ async function makeHifi() {
     status.style.display = 'block';
     status.innerHTML = 'Waiting for High 5...';
     const response = await postData('https://hacka-tron--hifi.herokuapp.com/api/hifi', { country: COUNTRY });
-    status.innerHTML = `Someone in ${response.country} high fived you back!!`;
+    status.innerHTML = `Someone in ${response.country} high fived you back!`;
 }
 
 async function getUserCountry() {
