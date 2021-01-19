@@ -4,6 +4,7 @@ const ACCESS_KEY = '19afeb2ffaf61853898eaa82b3ceea79';
 var COUNTRY;
 getUserCountry().then(country => {
     COUNTRY = country;
+    document.getElementById('hifi').disabled = false;
 })
 async function makeHifi() {
     const status = document.getElementById('status');

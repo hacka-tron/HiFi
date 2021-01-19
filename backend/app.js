@@ -40,7 +40,7 @@ app.get('/', (req, res) => {
 
 app.post('/api/hifi', async(req, res) => {
     var otherHifi;
-    if (otherHifi = await HifiQuery.find({ otherCountry: { $exists: false } }).limit(1).sort('added')) {
+    if (otherHifi = (await HifiQuery.find({ otherCountry: { $exists: false } }).sort({ added: 1 }).limit(1))[0]) {
         HifiQuery.findOneAndUpdate({ _id: otherHifi._id }, { $set: { otherCountry: req.body.country } }).then(() => {
             res.send({ country: otherHifi.country });
         })
