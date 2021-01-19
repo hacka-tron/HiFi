@@ -2,16 +2,16 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const mongoose = require('mongoose');
-const URI = 'mongodb+srv://bpower2009:pickles@cluster0.2wvrq.mongodb.net/hifi?retryWrites=true&w=majority';
+const URI = `mongodb+srv://bpower2009:${process.env.MONGO_PW}@cluster0.2wvrq.mongodb.net/hifi?retryWrites=true&w=majority`;
 
 const helpers = require('./helpers');
-const crypto = require('crypto');
 const HifiQuery = require('./models/hifiQuery')
 
 mongoose.connect(URI, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false }).then(() => {
     console.log('Connected to database!');
-}).catch(() => {
+}).catch((error) => {
     console.log('Connection failed')
+    console.log(error);
 })
 
 const app = express();
@@ -40,7 +40,7 @@ app.get('/', (req, res) => {
 
 app.post('/api/hifi', async(req, res) => {
     var otherHifi;
-    if (otherHifi = await HifiQuery.findOne().sort('added')) {
+    if (otherHifi = await HifiQuery.find({ otherCountry: { $exists: false } }).limit(1).sort('added')) {
         HifiQuery.findOneAndUpdate({ _id: otherHifi._id }, { $set: { otherCountry: req.body.country } }).then(() => {
             res.send({ country: otherHifi.country });
         })

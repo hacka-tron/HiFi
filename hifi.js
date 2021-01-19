@@ -15,8 +15,10 @@ async function makeHifi() {
 
 async function getUserCountry() {
     const ip = await fetch(`${CORS_BYPASS_URL}https://checkip.amazonaws.com/`).then(res => res.text());
+    console.log(ip);
     const country = await fetch(`${CORS_BYPASS_URL}http://api.ipstack.com/${ip}?access_key=${ACCESS_KEY}`).then(res =>
         res.json()).then(data => data.country_name)
+    console.log(country);
     return country;
 }
 
